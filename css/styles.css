@@ -1,0 +1,123 @@
+#map {
+    height: 80vh;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-top: 1%;
+    border-radius: 10px;
+    border: 2px solid #000000;
+    z-index: 0;
+}
+
+.nav {
+    position: sticky;
+    background-color: #D3D3D3;
+    line-height: 2.5;
+    top: 0;
+    z-index: 1;
+}
+
+.nav-item:hover {
+    border-radius: 5px;
+    color: #000000;
+    background-color: #b4b4b4;
+}
+
+.dropdown-item {
+    position: relative;
+    background-color: white;
+    display: none;
+}
+
+#dropdownSelection {
+    margin: 0;
+    height: 0;
+}
+
+#dropdownList {
+    position: relative;
+    margin-top: 3rem;
+}
+
+.dropdown-item:hover {
+    background-color: #D3D3D3;
+    text-decoration: underline;
+}
+
+.dropdown-item.active {
+    background-color: #D3D3D3;
+    text-decoration: underline;
+}
+
+#input {
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+}
+
+.dropdown-menu.show {
+    position: relative;
+    margin-top: 5vh;
+    padding: 0;
+    border-radius: 5px;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: #D3D3D3;
+    text-align: left;
+    font-size: small;
+    padding-left: 5vh;
+    box-shadow: 0 50vh 0 50vh #D3D3D3;
+    line-height: 2;
+    z-index: 1;
+}
+
+#info {
+    margin-top: 5%;
+    margin-bottom: 2%;
+    width: 95%;
+    margin-left: 2.5%;
+}
+
+#mapInfo {
+    background-color: #D3D3D3;
+    color: #007bff;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding-top: 2%;
+    border-radius: 10px;
+    padding-left: 8%;
+}
+
+#chartInfo {
+    background-color: #D3D3D3;
+    color: #007bff;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding-top: 2%;
+    border-radius: 10px;
+    padding-left: 8%;
+}
+
+#municipalityInfo {
+    background-color: #D3D3D3;
+    color: #007bff;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-radius: 10px;
+    padding-left: 8%;
+}
+
+#chartButtons {
+    display: flex;
+    justify-content: center;
+}
+
+#chartButtons button {
+    margin-left: 1%;
+    margin-right: 1%;
+}
