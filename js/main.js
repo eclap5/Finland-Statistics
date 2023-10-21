@@ -1,17 +1,19 @@
 import * as commonConstants from './commonConstants.js'
 
-
+// Criminal statistics data is fetched on page load due to long processing time and stored in a global variable for further use
 let criminalData = null
 
+// Municipality object is used to store the selected municipality id and name to easily pass it to the functions
 let municipality = {
     id: ['SSS'],
     name: 'Finland'
 }
 
+// chart type is stored to global variable to make it easier to change it
 let chartType = 'line'
-let chartDataType = 'population'
 
 
+// Fetches data from the API with POST method
 const fetchApiData = async (url, query) => {
     const response = await fetch(url, { 
         method: 'POST',
@@ -22,12 +24,14 @@ const fetchApiData = async (url, query) => {
 }
 
 
+// Fetches data from the API with GET method
 const fetchData = async (url) => {
     const response = await fetch(url)
     return await response.json()
 }
 
 
+// Initializes the map and adds the data to it
 const initMap = async () => {
     let mapData = await fetchData(commonConstants.mapUrl) 
 
@@ -49,6 +53,7 @@ const initMap = async () => {
 }
 
 
+// Adds the feature data to the map and displays it with hover or click event
 const getFeature = (feature, layer) => {
     layer.bindTooltip(feature.properties.name)
     layer.on('click', async function (e) {
@@ -57,6 +62,7 @@ const getFeature = (feature, layer) => {
 }
 
 
+// Displays the feature data in a popup
 const displayFeatureData = (feature, layer) => {
     layer.bindPopup(`
     <div>
@@ -71,13 +77,14 @@ const displayFeatureData = (feature, layer) => {
     `).openPopup()
 }
 
-
+// Updates the feature with processed data
 const getFeatureData = async (feature) => {
     feature = await handleFeatureData(feature)
     return feature
 }
 
 
+// Fetches the population data and adds it to the feature after processing
 const handleFeatureData = async (feature) => {
     let id = 'KU' + feature.properties.kunta
     commonConstants.populationQuery.query[1].selection.values = [id]
@@ -89,6 +96,7 @@ const handleFeatureData = async (feature) => {
 }
 
 
+// Processes the crime data and returns the latest crime rate
 const getLatestCrimeRate = async (id) => {
     let latestCrimes = 0
     let index = commonConstants.criminalStatQuery.query[1].selection.values.indexOf(id)
@@ -99,6 +107,7 @@ const getLatestCrimeRate = async (id) => {
 }
 
 
+// Processes the employment data and returns the latest employment rate
 const getLatestEmploymentRate = async (id) => {
     commonConstants.employmentRateQuery.query[0].selection.values = [id]
 
@@ -112,6 +121,7 @@ const getLatestEmploymentRate = async (id) => {
 }
 
 
+// Builds the chart with the selected data default data is population for the whole country
 const buildChart = async () => {
     commonConstants.populationQuery.query[1].selection.values = municipality.id
     let municipalityData = await fetchApiData(commonConstants.populationUrl, commonConstants.populationQuery)
@@ -140,8 +150,8 @@ const buildChart = async () => {
 }
 
 
+// Changes the chart data based on the selected data type
 const changeChartData = async (chart, dataType) => {
-    chartDataType = dataType
     let data = {}
     data.labels = commonConstants.populationQuery.query[0].selection.values
     data.datasets = [{
@@ -183,6 +193,8 @@ const changeChartData = async (chart, dataType) => {
     chart.update(data)
 }
 
+
+// Filters the dropdown menu choices based on the input
 const filterFunction = () => {
     let input = document.getElementById("input")
     let filter = input.value.toLowerCase()
@@ -202,6 +214,7 @@ const filterFunction = () => {
 }
 
 
+// Loads the dropdown menu with the municipality choices
 const loadDropDownMenu = async () => {
     let object = document.getElementById('dropdownList')
     let municipalityData = await fetchData(commonConstants.populationUrl)
@@ -224,6 +237,7 @@ const loadDropDownMenu = async () => {
 }
 
 
+// Selects the municipality and hides the dropdown menu
 const selectMunicipality = (id, text) => {
     let div = document.getElementById('dropdownSelection')
     let a = div.getElementsByTagName('a')
@@ -240,6 +254,7 @@ const selectMunicipality = (id, text) => {
 }
 
 
+// Selects the navigation item and scrolls to the selected section
 const selectNavItem = () => {
     const navItems = document.querySelectorAll('.nav-link')
     navItems.forEach(item => {
@@ -273,6 +288,7 @@ const selectNavItem = () => {
 }
 
 
+// Changes the chart type between line and bar
 const changeChartType = () => {
     document.getElementById('interactiveBtn').addEventListener('click', () => {
         if (chartType === 'line') {
@@ -286,6 +302,7 @@ const changeChartType = () => {
 }
 
 
+// Loads the data from the API and calls the functions to build the page
 const loadData = async () => {
     criminalData = await fetchApiData(commonConstants.criminalStatUrl, commonConstants.criminalStatQuery)
     criminalData = Object.values(criminalData.value)
